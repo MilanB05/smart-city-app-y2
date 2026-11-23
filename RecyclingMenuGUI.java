@@ -11,7 +11,12 @@ package recyclingtrackeraa;
 public class RecyclingMenuGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RecyclingMenuGUI.class.getName());
-
+    private static RecyclingManager Manager = new RecyclingManager();
+    
+    public static RecyclingManager getManager(){
+        return Manager;
+    }
+    
     /**
      * Creates new form RecyclingMenuGUI
      */
@@ -131,9 +136,7 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMngRecActionPerformed
 
     private void btnBackMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackMenuActionPerformed
-      NathanSpollenPackage.SmartCityGUI smart = new NathanSpollenPackage.SmartCityGUI();
-      smart.setVisible(true);
-      dispose();
+      
     }//GEN-LAST:event_btnBackMenuActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed

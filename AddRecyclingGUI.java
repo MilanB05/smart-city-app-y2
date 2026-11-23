@@ -4,6 +4,8 @@
  */
 package recyclingtrackeraa;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Home-PC
@@ -38,7 +40,7 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
         btnSavedRec = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        txtMatDet = new javax.swing.JTextField();
+        txtDetail = new javax.swing.JTextField();
         txtWeight = new javax.swing.JTextField();
         txtDate = new javax.swing.JTextField();
         comboPP = new javax.swing.JComboBox<>();
@@ -67,6 +69,7 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
         btnSavedRec.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnSavedRec.setForeground(new java.awt.Color(255, 255, 255));
         btnSavedRec.setText("Save Record");
+        btnSavedRec.addActionListener(this::btnSavedRecActionPerformed);
 
         btnClear.setBackground(new java.awt.Color(204, 0, 0));
         btnClear.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -79,8 +82,8 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
         btnBack.setText("Back");
         btnBack.addActionListener(this::btnBackActionPerformed);
 
-        txtMatDet.setText("newspapers/bottle");
-        txtMatDet.addActionListener(this::txtMatDetActionPerformed);
+        txtDetail.setText("newspapers/bottle");
+        txtDetail.addActionListener(this::txtDetailActionPerformed);
 
         txtWeight.setText("e.g. 2.0");
 
@@ -124,7 +127,7 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
                                     .addComponent(lblMatDet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtMatDet, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -152,7 +155,7 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
                     .addComponent(lblMatType))
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtMatDet, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMatDet))
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -180,16 +183,79 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
+        // clears materila details
+        txtDetail.setText("");
+        
+        // ckeares wieght
+        txtWeight.setText("");
+        
+        // cleare sthe date
+        txtDate.setText("");
+        
+        //resets dropdown
+        comboPP.setSelectedIndex(0);
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void comboPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboPPActionPerformed
 
-    private void txtMatDetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatDetActionPerformed
+    private void txtDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDetailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtMatDetActionPerformed
+    }//GEN-LAST:event_txtDetailActionPerformed
+
+    private void btnSavedRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSavedRecActionPerformed
+      try{
+          // gets selected materila from dropdown
+          String material = comboPP.getSelectedItem().toString();
+          
+          // gets the material detail entered by users
+          String detail = txtDetail.getText().trim();
+          
+          double weight = Double.parseDouble(txtWeight.getText().trim());
+          
+          String date = txtDate.getText().trim();
+          
+          // checks if all fields have valid informations
+          
+          if(detail.isEmpty() || date.isEmpty() ||!Double.isFinite(weight) ||weight < 0){
+              JOptionPane.showMessageDialog(this, "Please enter a valid recycling informations!!!");
+              return;
+          }
+          RecyclingManager Manager = RecyclingMenuGUI.getManager();
+          
+          // this generate id that is not already used
+          int recordId = 1;
+          
+          while(Manager.searchRecord(recordId) != null){
+              recordId++;
+          }
+          RecyclingRecord record;
+          
+          if(material.equalsIgnoreCase("Paper")){
+              
+              record =  new PaperRecycling(recordId,weight,date,detail);
+              
+          
+      }else if (material.equalsIgnoreCase("Plastic")){
+          
+          record = new plasticRecycling(recordId,weight,date,detail);
+      }else{
+          JOptionPane.showMessageDialog(this, "Please selecte Paper or Plastic.");
+          return;
+      }
+          Manager.addRecord(record);
+          JOptionPane.showMessageDialog(this, "Recyclign record is saved!Record Id: " + recordId);
+          
+          //clears fields after saving
+          txtDetail.setText("");
+          txtWeight.setText("");
+          txtDate.setText("");
+          comboPP.setSelectedIndex(0);
+      }catch(NumberFormatException e){
+          JOptionPane.showMessageDialog(this, "Please enter a valid weight!!");
+      }
+    }//GEN-LAST:event_btnSavedRecActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,7 +294,7 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitleAdd;
     private javax.swing.JLabel lblWeight;
     private javax.swing.JTextField txtDate;
-    private javax.swing.JTextField txtMatDet;
+    private javax.swing.JTextField txtDetail;
     private javax.swing.JTextField txtWeight;
     // End of variables declaration//GEN-END:variables
 }

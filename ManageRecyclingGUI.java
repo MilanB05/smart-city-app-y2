@@ -5,6 +5,7 @@
 package recyclingtrackeraa;
 
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,7 +21,36 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
     public ManageRecyclingGUI() {
         initComponents();
         getContentPane().setBackground(new java.awt.Color(179,229,252));
+        displayRecords();
     }
+    public void displayRecords(){
+        // this gets table model
+        DefaultTableModel model = (DefaultTableModel) tblRecords.getModel();
+        // removes existing rows
+        model.setRowCount(0);
+        
+        // shared recycling manager
+       RecyclingManager Manager = RecyclingMenuGUI.getManager();
+       
+       // loops through every saved record
+       for (RecyclingRecord record: Manager.getAllRecords()){
+           
+           String detail = "";
+           // gets paper details
+            if (record instanceof PaperRecycling){
+                detail = ((PaperRecycling)record).getPaperType();
+                    // gets plastic details
+            }else if(record instanceof plasticRecycling){
+                detail = ((plasticRecycling) record).getPlasticType();
+       }
+            // adds the reco0rd to the table
+            model.addRow(new Object[]{
+                record.getRecordId(),record.getMaterialType(),detail, record.getWeight(),record.getDate()
+                    
+            });
+    
+       }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,7 +65,7 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
         txtEnter = new javax.swing.JTextField();
         btnSrc = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblRecords = new javax.swing.JTable();
         btnDispALL = new javax.swing.JButton();
         btnDelRec = new javax.swing.JButton();
         btnShowStats = new javax.swing.JButton();
@@ -64,7 +94,7 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
         btnSrc.setText("SEARCH");
         btnSrc.addActionListener(this::btnSrcActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblRecords.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -76,14 +106,14 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblRecords);
 
         btnDispALL.setBackground(new java.awt.Color(0, 204, 0));
         btnDispALL.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -170,7 +200,7 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSrcActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnSrcActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -229,9 +259,9 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnShowStats;
     private javax.swing.JButton btnSrc;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblMngRecyRec;
+    private javax.swing.JTable tblRecords;
     private javax.swing.JTextField txtEnter;
     // End of variables declaration//GEN-END:variables
 }
