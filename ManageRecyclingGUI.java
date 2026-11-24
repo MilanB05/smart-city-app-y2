@@ -5,6 +5,7 @@
 package recyclingtrackeraa;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -119,11 +120,13 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
         btnDispALL.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDispALL.setForeground(new java.awt.Color(255, 255, 255));
         btnDispALL.setText("Display All");
+        btnDispALL.addActionListener(this::btnDispALLActionPerformed);
 
         btnDelRec.setBackground(new java.awt.Color(204, 0, 0));
         btnDelRec.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDelRec.setForeground(new java.awt.Color(255, 255, 255));
         btnDelRec.setText("Delete Record");
+        btnDelRec.addActionListener(this::btnDelRecActionPerformed);
 
         btnShowStats.setBackground(new java.awt.Color(0, 204, 0));
         btnShowStats.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -200,7 +203,44 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSrcActionPerformed
-        
+       try{
+           // gets id entered by the resident/user
+           int recordId = Integer.parseInt(txtEnter.getText().trim());
+           
+           //gets recycling manager
+           RecyclingManager Manager = RecyclingMenuGUI.getManager();
+           
+           // searches for the entered record
+           RecyclingRecord record = Manager.searchRecord(recordId);
+           
+           // gets JTable 
+           DefaultTableModel model = (DefaultTableModel) tblRecords.getModel();
+           
+           // cleares the table
+           model.setRowCount(0);
+           
+           if(record != null){
+               String Detail = "";
+               
+           // gets correct materila detail
+           if(record instanceof PaperRecycling){
+               Detail = ((PaperRecycling) record).getPaperType();
+           }else if(record instanceof plasticRecycling){
+               Detail = ((plasticRecycling) record).getPlasticType();
+               
+           }
+           // display matching record in the table
+           model.addRow(new Object[]{  record.getRecordId(), record.getMaterialType(),Detail, record.getWeight(), record.getDate()
+                   
+               
+           });
+               
+           }else{
+               JOptionPane.showMessageDialog(this, "No Recyclign record found with this ID: " + recordId);
+           }
+       }catch(NumberFormatException e){
+           JOptionPane.showMessageDialog(this, "Please enter a valid ID!!!");
+       }
     }//GEN-LAST:event_btnSrcActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -224,8 +264,74 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEnterActionPerformed
 
     private void btnShowStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowStatsActionPerformed
-        // TODO add your handling code here:
+        RecyclingManager Manager = RecyclingMenuGUI.getManager();
+        
+        double paperTotal = 0;
+        double plasticTotal = 0;
+        
+        // it loops through all saved records
+        for(RecyclingRecord record : Manager.getAllRecords()){
+           // calculate total paper weight
+           if (record instanceof PaperRecycling){
+               paperTotal += record.getWeight();
+               
+           }else if (record instanceof plasticRecycling){
+               plasticTotal += record.getWeight();
+        }
+        }
+        // calculate overall recycling weight
+        double total = Manager.CalculateTotalWeight();
+        
+        // display recycling stats
+        JOptionPane.showMessageDialog(this, """
+                                            Recycling Statistics 
+                                             Total Papaer: """ + paperTotal + "kg\n" + "Plastic Total: " + plasticTotal + "kg\n" + "Total Weigth: " + total + " kg\n" + "Total Records: " + Manager.getAllRecords().size());
     }//GEN-LAST:event_btnShowStatsActionPerformed
+
+    private void btnDispALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDispALLActionPerformed
+        // displays all records
+        displayRecords();
+        
+        // cleares the search field
+        txtEnter.setText("");
+        
+    }//GEN-LAST:event_btnDispALLActionPerformed
+
+    private void btnDelRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelRecActionPerformed
+        try{
+             // gets id entered by the resident/user
+           int recordId = Integer.parseInt(txtEnter.getText().trim());
+           
+           //gets recycling manager
+           RecyclingManager Manager = RecyclingMenuGUI.getManager();
+           
+           // checks if record exists
+           if(Manager.searchRecord(recordId) != null){
+               // asks the resident if he is sure that he wants to delete record
+               int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete", "Confirm delete", JOptionPane.YES_NO_OPTION);
+               
+               if(confirm == JOptionPane.YES_OPTION){
+                   
+                   // deletes record
+                   Manager.deleteRecord(recordId);
+                   
+                   JOptionPane.showMessageDialog(this,"Record has been deleted");
+                   
+                   // refreshes table
+                   displayRecords();
+                   
+                   // clears serach field
+                   txtEnter.setText("");
+               }
+                
+           }else{
+                   JOptionPane.showMessageDialog(this, "Record not found");
+            
+        }
+           }catch(NumberFormatException e){
+                   JOptionPane.showMessageDialog(this,"Please enter a valid ID!!!");
+                   }         
+    }//GEN-LAST:event_btnDelRecActionPerformed
 
     /**
      * @param args the command line arguments
