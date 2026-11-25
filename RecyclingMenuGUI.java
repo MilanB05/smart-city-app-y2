@@ -35,12 +35,13 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         btnAddRecyRec = new javax.swing.JButton();
-        btnMngRec = new javax.swing.JButton();
         btnBackMenu = new javax.swing.JButton();
         lblTitle = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
+        btnMngRec1 = new javax.swing.JButton();
+        btnStats = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -55,12 +56,6 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
         btnAddRecyRec.setForeground(new java.awt.Color(255, 255, 255));
         btnAddRecyRec.setText("Add Recycling Record");
         btnAddRecyRec.addActionListener(this::btnAddRecyRecActionPerformed);
-
-        btnMngRec.setBackground(new java.awt.Color(0, 153, 0));
-        btnMngRec.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnMngRec.setForeground(new java.awt.Color(255, 255, 255));
-        btnMngRec.setText("Manage Records");
-        btnMngRec.addActionListener(this::btnMngRecActionPerformed);
 
         btnBackMenu.setBackground(new java.awt.Color(0, 153, 0));
         btnBackMenu.setFont(new java.awt.Font("Serif", 0, 14)); // NOI18N
@@ -77,6 +72,17 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
         jTextPane1.setText("This section of application is for Recycling.\nthe residents of our city will be able to track\ntheir Recycling habits.\nThis application allows resident to track\nthier old recyling records, while allowing \nthem to add new ones and delete old \ntrackings.");
         jScrollPane2.setViewportView(jTextPane1);
 
+        btnMngRec1.setBackground(new java.awt.Color(0, 153, 0));
+        btnMngRec1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnMngRec1.setForeground(new java.awt.Color(255, 255, 255));
+        btnMngRec1.setText("Manage Records");
+        btnMngRec1.addActionListener(this::btnMngRec1ActionPerformed);
+
+        btnStats.setBackground(new java.awt.Color(0, 153, 0));
+        btnStats.setForeground(new java.awt.Color(255, 255, 255));
+        btnStats.setText("Show Statistics");
+        btnStats.addActionListener(this::btnStatsActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,39 +91,46 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(127, 127, 127)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(127, 127, 127))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAddRecyRec, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAddRecyRec, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                            .addComponent(btnMngRec, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBackMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnBackMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                            .addComponent(btnMngRec1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnStats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(96, 96, 96))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(btnAddRecyRec, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(btnMngRec, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnBackMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(94, 94, 94))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(116, 116, 116))))
+                        .addGap(116, 116, 116))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAddRecyRec, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnMngRec1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnStats, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(btnBackMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(78, 78, 78))))
         );
 
         pack();
@@ -129,12 +142,6 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAddRecyRecActionPerformed
 
-    private void btnMngRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMngRecActionPerformed
-        ManageRecyclingGUI manage = new ManageRecyclingGUI();
-        manage.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnMngRecActionPerformed
-
     private void btnBackMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackMenuActionPerformed
       
     }//GEN-LAST:event_btnBackMenuActionPerformed
@@ -142,6 +149,16 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_formKeyPressed
+
+    private void btnMngRec1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMngRec1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMngRec1ActionPerformed
+
+    private void btnStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatsActionPerformed
+        StatsGUI stats = new StatsGUI();
+        stats.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnStatsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,7 +188,8 @@ public class RecyclingMenuGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddRecyRec;
     private javax.swing.JButton btnBackMenu;
-    private javax.swing.JButton btnMngRec;
+    private javax.swing.JButton btnMngRec1;
+    private javax.swing.JToggleButton btnStats;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel lblLogo;

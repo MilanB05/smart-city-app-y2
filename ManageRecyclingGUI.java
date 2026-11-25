@@ -69,7 +69,6 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
         tblRecords = new javax.swing.JTable();
         btnDispALL = new javax.swing.JButton();
         btnDelRec = new javax.swing.JButton();
-        btnShowStats = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
 
@@ -128,12 +127,6 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
         btnDelRec.setText("Delete Record");
         btnDelRec.addActionListener(this::btnDelRecActionPerformed);
 
-        btnShowStats.setBackground(new java.awt.Color(0, 204, 0));
-        btnShowStats.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnShowStats.setForeground(new java.awt.Color(255, 255, 255));
-        btnShowStats.setText("Show Statistics");
-        btnShowStats.addActionListener(this::btnShowStatsActionPerformed);
-
         btnBack.setBackground(new java.awt.Color(153, 153, 153));
         btnBack.setText("Back");
         btnBack.addActionListener(this::btnBackActionPerformed);
@@ -146,9 +139,7 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnShowStats, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDispALL, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnDispALL, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -194,9 +185,7 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDispALL, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelRec, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
-                        .addComponent(btnShowStats, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))))
+                        .addGap(123, 123, 123))))
         );
 
         pack();
@@ -262,31 +251,6 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
     private void txtEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEnterActionPerformed
-
-    private void btnShowStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowStatsActionPerformed
-        RecyclingManager Manager = RecyclingMenuGUI.getManager();
-        
-        double paperTotal = 0;
-        double plasticTotal = 0;
-        
-        // it loops through all saved records
-        for(RecyclingRecord record : Manager.getAllRecords()){
-           // calculate total paper weight
-           if (record instanceof PaperRecycling){
-               paperTotal += record.getWeight();
-               
-           }else if (record instanceof plasticRecycling){
-               plasticTotal += record.getWeight();
-        }
-        }
-        // calculate overall recycling weight
-        double total = Manager.CalculateTotalWeight();
-        
-        // display recycling stats
-        JOptionPane.showMessageDialog(this, """
-                                            Recycling Statistics 
-                                             Total Papaer: """ + paperTotal + "kg\n" + "Plastic Total: " + plasticTotal + "kg\n" + "Total Weigth: " + total + " kg\n" + "Total Records: " + Manager.getAllRecords().size());
-    }//GEN-LAST:event_btnShowStatsActionPerformed
 
     private void btnDispALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDispALLActionPerformed
         // displays all records
@@ -362,7 +326,6 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelRec;
     private javax.swing.JButton btnDispALL;
-    private javax.swing.JButton btnShowStats;
     private javax.swing.JButton btnSrc;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblLogo;
