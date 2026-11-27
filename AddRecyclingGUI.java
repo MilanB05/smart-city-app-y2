@@ -120,7 +120,7 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(35, 35, 35)
                                         .addComponent(lblTitleAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 171, Short.MAX_VALUE))))
+                                        .addGap(0, 185, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,7 +170,7 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSavedRec, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         pack();
@@ -245,6 +245,15 @@ public class AddRecyclingGUI extends javax.swing.JFrame {
           return;
       }
           Manager.addRecord(record);
+          
+          JOptionPane.showMessageDialog(this, "Recyclign record is saved!Record Id: " + recordId);
+          if(!Manager.SaveToFile()){
+              Manager.deleteRecord(recordId);
+              JOptionPane.showMessageDialog(this, "Errror saving to file");
+              return;
+          }
+          
+          // confrims saving of the file
           JOptionPane.showMessageDialog(this, "Recyclign record is saved!Record Id: " + recordId);
           
           //clears fields after saving

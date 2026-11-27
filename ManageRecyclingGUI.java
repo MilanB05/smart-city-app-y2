@@ -4,9 +4,11 @@
  */
 package recyclingtrackeraa;
 
-import java.awt.Color;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -21,6 +23,13 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
      */
     public ManageRecyclingGUI() {
         initComponents();
+        DefaultTableCellRenderer Render = new DefaultTableCellRenderer();
+        Render.setHorizontalAlignment(SwingConstants.LEFT);
+        for(int i = 0; i < tblRecords.getColumnCount(); i++){
+            tblRecords.getColumnModel().getColumn(i).setCellRenderer(Render);
+            
+        }
+            
         getContentPane().setBackground(new java.awt.Color(179,229,252));
         displayRecords();
     }
@@ -94,6 +103,8 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
         btnSrc.setText("SEARCH");
         btnSrc.addActionListener(this::btnSrcActionPerformed);
 
+        tblRecords.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblRecords.setForeground(new java.awt.Color(38, 50, 56));
         tblRecords.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -113,6 +124,9 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tblRecords.setGridColor(new java.awt.Color(220, 228, 232));
+        tblRecords.setRowHeight(30);
+        tblRecords.setSelectionBackground(new java.awt.Color(144, 202, 249));
         jScrollPane1.setViewportView(tblRecords);
 
         btnDispALL.setBackground(new java.awt.Color(0, 204, 0));
@@ -138,12 +152,10 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(40, 40, 40)
                 .addComponent(btnDispALL, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelRec, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnDelRec, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(137, 137, 137))
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
@@ -159,8 +171,12 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
                                 .addComponent(txtEnter, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSrc, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 33, Short.MAX_VALUE)))
+                        .addGap(0, 13, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(344, 344, 344)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,15 +193,12 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnDispALL, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelRec, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(123, 123, 123))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDispALL, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelRec, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(62, 62, 62)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -278,6 +291,13 @@ public class ManageRecyclingGUI extends javax.swing.JFrame {
                    
                    // deletes record
                    Manager.deleteRecord(recordId);
+                   
+                   // this updates the file after deleltiong a record
+                   if(!Manager.SaveToFile()){
+                       JOptionPane.showMessageDialog(this, "Error updating recycling file");
+                       return;
+                   }
+                   
                    
                    JOptionPane.showMessageDialog(this,"Record has been deleted");
                    
